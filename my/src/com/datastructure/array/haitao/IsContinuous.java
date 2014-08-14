@@ -1,6 +1,6 @@
 package com.datastructure.array.haitao;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by danzhu on 8/12/14.
@@ -8,8 +8,36 @@ import java.util.ArrayList;
  *
  */
 public class IsContinuous {
+    public static void main(String[] args){
+        int[] num = {0,6,1,0,0};
+        System.out.print(isContinuous(num));
+
+    }
     //treat Joker as zero
-    public static boolean isContinuous(ArrayList<Integer> list){
+    //sort the list
+    //count gaps and zeros then check if they are equal
+    public static boolean isContinuous(int[] array){
+        if(array == null || array.length != 5)
+            return false;
+
+        Arrays.sort(array);
+
+        int zeros = 0;
+        int gaps = 0;
+
+        for(int i = 0; i < 5 && array[i]==0; i++){
+            zeros++;
+        }
+
+        int smaller = zeros;
+        int bigger = smaller+1;
+        while(bigger < 5){
+            gaps += array[bigger]-array[smaller]-1;
+            smaller++;
+            bigger++;
+        }
+
+        return zeros >= gaps ? true : false;
 
     }
 
