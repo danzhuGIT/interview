@@ -29,6 +29,7 @@ public class PalindromePartition {
         return result;
     }
 
+
     public void addPartition(String str, ArrayList<String> partition, ArrayList<ArrayList<String>> result){
         if(str.length() == 0){
             ArrayList<String> temp = new ArrayList<String>(partition);
@@ -36,6 +37,7 @@ public class PalindromePartition {
             return;
         }
 
+        //if (0,i) is palindrome, then recursively call addPartition
         for(int i = 0; i < str.length(); i++){
             if(isPalindrome(str.substring(0,i+1))){
                 partition.add(str.substring(0,i+1));

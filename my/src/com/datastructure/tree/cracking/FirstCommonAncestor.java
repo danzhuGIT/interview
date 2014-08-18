@@ -25,6 +25,9 @@ public class FirstCommonAncestor {
 
 
     }
+
+    //n1 and n2 is in the left and right subtree
+    // O(n^2)
     public static TreeNode firstCommonAncestor(TreeNode root, TreeNode n1, TreeNode n2){
         if(root == n1 || root == n2)
             return root;
