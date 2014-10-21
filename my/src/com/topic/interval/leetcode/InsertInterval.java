@@ -1,5 +1,7 @@
 package com.topic.interval.leetcode;
 
+import com.topic.interval.Interval;
+
 import java.util.List;
 
 /**

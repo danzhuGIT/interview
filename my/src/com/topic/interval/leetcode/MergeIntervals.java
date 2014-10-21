@@ -1,5 +1,7 @@
 package com.topic.interval.leetcode;
 
+import com.topic.interval.Interval;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;

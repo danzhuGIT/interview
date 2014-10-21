@@ -42,10 +42,10 @@ public class UniqueBSTII {
             ArrayList<TreeNode> leftTrees = new ArrayList<TreeNode>();
             generate(leftTrees, start, i-1);
 
-            for(int j = 0; j < leftTrees.size(); j++){
-                ArrayList<TreeNode> rightTrees = new ArrayList<TreeNode>();
-                generate(rightTrees, i+1, end);
+            ArrayList<TreeNode> rightTrees = new ArrayList<TreeNode>();
+            generate(rightTrees, i+1, end);
 
+            for(int j = 0; j < leftTrees.size(); j++){
                 for(int k = 0; k < rightTrees.size(); k++){
                     TreeNode root = new TreeNode(i);
                     root.left = leftTrees.get(j);

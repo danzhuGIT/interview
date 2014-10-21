@@ -27,4 +27,26 @@ public class Power {
             return power(x, n);
         }
     }
+
+    //find nearest int log_a(c) result
+    private int log(double c, int a){
+        //Assume a is not equal to 0
+
+        boolean isNeg = false;
+        if(Math.abs(c) < Math.abs(a)){
+            c = 1/c;
+            isNeg = true;
+        }
+
+        int result = 0;
+
+        while(Math.abs(c)>1){
+            c /= a;
+            result++;
+        }
+        if(isNeg){
+            result = -result;
+        }
+        return result;
+    }
 }

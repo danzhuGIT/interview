@@ -18,7 +18,7 @@ package com.algorithm.DP.leetcode;
  ]
  The total number of unique paths is 2.
  */
-//copy
+
 public class UniquePathsII {
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
         int m=obstacleGrid.length;
@@ -35,22 +35,37 @@ public class UniquePathsII {
                 }
                 else if(obstacleGrid[i][j]==0){
                     if(i==0){
-                        if(obstacleGrid[i][j-1]==0)
-                            table[i][j]+=table[i][j-1];
+                        //if(obstacleGrid[i][j-1]==0)
+                        table[i][j]+=table[i][j-1];
                     }
                     else if(j==0){
-                        if(obstacleGrid[i-1][j]==0)
-                            table[i][j]+=table[i-1][j];
+                        //if(obstacleGrid[i-1][j]==0)
+                        table[i][j]+=table[i-1][j];
                     }
                     else{
-                        if(obstacleGrid[i-1][j]==0)
-                            table[i][j]+=table[i-1][j];
-                        if(obstacleGrid[i][j-1]==0)
-                            table[i][j]+=table[i][j-1];
+                        //if(obstacleGrid[i-1][j]==0)
+                        table[i][j]+=table[i-1][j];
+                        //if(obstacleGrid[i][j-1]==0)
+                        table[i][j]+=table[i][j-1];
                     }
                 }
             }
         return table[m-1][n-1];
+    }
+
+    public int uniquePathsWithObstaclesII(int[][] obstacleGrid) {
+        int m=obstacleGrid.length;
+        int n=obstacleGrid[0].length;
+        int[] table=new int[n+1];
+        table[1] = 1;
+
+        for(int i =0; i<m;i++){
+            for(int j = 0; j<n; j++){
+                table[j+1]= obstacleGrid[i][j]==1 ? 0:table[j]+table[j+1];
+            }
+        }
+
+        return table[n];
     }
 
 }

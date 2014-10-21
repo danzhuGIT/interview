@@ -58,4 +58,19 @@ public class MaxmiumSubarray {
         maxV = Math.max(maxV, mlmax + mrmax + A[mid]);
         return maxV;
     }
+
+    //
+    public int maxSubArray3(int[] A) {
+        //maxPos: maximum sum ending with current element
+        int maxPos = 0;
+        int max = Integer.MIN_VALUE;
+        for(int i = 0; i < A.length; i++){
+            maxPos += A[i];
+            max = Math.max(max, maxPos);
+            if(maxPos < 0)
+                maxPos = 0;
+        }
+        return max;
+
+    }
 }

@@ -9,6 +9,7 @@ import com.datastructure.tree.TreeNode;
  * Given a singly linked list where elements are sorted in ascending order, convert it to a height balanced BST.
  */
 public class SortedListToBST {
+    ListNode h;
 
     public TreeNode sortedListToBST(ListNode head) {
         if(head == null)    return null;
@@ -18,20 +19,19 @@ public class SortedListToBST {
             length++;
             temp = temp.next;
         }
-        ListNode[] curr = new ListNode[1];
-        curr[0] = head;
-        return recursion(curr, 0, length - 1);
+        h = head;
+        return recursion(0, length - 1);
     }
 
-    private TreeNode recursion(ListNode[] curr, int start, int end){
+    private TreeNode recursion(int start, int end){
         if(start > end) return null;
 
         int mid = (start+end)/2;
 
-        TreeNode left = recursion(curr, start, mid-1);
-        TreeNode root = new TreeNode(curr[0].val);
-        curr[0] = curr[0].next;
-        TreeNode right = recursion(curr, mid+1, end);
+        TreeNode left = recursion(start, mid-1);
+        TreeNode root = new TreeNode(h.val);
+        h = h.next;
+        TreeNode right = recursion(mid+1, end);
         root.left = left;
         root.right = right;
 
