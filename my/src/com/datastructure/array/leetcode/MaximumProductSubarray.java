@@ -6,6 +6,13 @@ package com.datastructure.array.leetcode;
 
  For example, given the array [2,3,-2,4],
  the contiguous subarray [2,3] has the largest product = 6.
+
+ f(k) = Largest product subarray, ending at k.
+ g(k) = Smallest product subarray, ending at k.
+
+ f(k) = max( f(k-1) * A[k], A[k], g(k-1) * A[k] )
+ g(k) = min( f(k-1) * A[k], A[k], g(k-1) * A[k] )
+
  */
 public class MaximumProductSubarray {
     public int maxProduct(int[] A) {
@@ -48,5 +55,22 @@ public class MaximumProductSubarray {
 
         }
         return max;
+    }
+
+    public int maxProductII(int[] A) {
+        if(A == null || A.length < 1)
+            return Integer.MIN_VALUE;
+
+        int result, max, min;
+        max = min = result = A[0];
+        int mx, mn;
+        for(int i = 1; i < A.length; i++){
+            mx = max;
+            mn = min;
+            max = Math.max(Math.max(mx*A[i], A[i]), mn*A[i]);
+            min = Math.min(Math.min(mx*A[i], A[i]), mn*A[i]);
+            result = Math.max(result, max);
+        }
+        return result;
     }
 }

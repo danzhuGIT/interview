@@ -30,6 +30,36 @@ public class WildcardMatching {
         System.out.println(isMatch("bsdakkkk", "****"));
     }
 
+    public boolean isMatchBetter(String s, String p) {
+        if(p == null)   return s == null;
+
+        int posS = 0;
+        int posP = 0;
+        int sl = s.length();
+        int pl = p.length();
+        int star = -1;
+        int mark = -1;
+
+        while(posS < sl){
+            if(posP<pl && (s.charAt(posS)==p.charAt(posP) || p.charAt(posP)=='?')){
+                posP++;
+                posS++;
+            }else if(posP<pl && p.charAt(posP)=='*'){
+                star = posP;
+                mark = posS;
+                posP++;
+            }else if(star>=0){
+                posP = star+1;
+                posS = ++mark;
+            }else
+                return false;
+        }
+        while(posP < pl && p.charAt(posP)=='*')
+            posP++;
+
+        return posP == pl;
+    }
+
     public static boolean isMatch(String s, String p) {
         if(p == null)   return s == null;
 

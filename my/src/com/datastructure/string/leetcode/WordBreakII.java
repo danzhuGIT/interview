@@ -49,25 +49,25 @@ public class WordBreakII {
         set.add("a");
         set.add("b");
         String str = "ab";
-        List<String> result = wordBreak(str, set);
-        System.out.print(result);
+        //List<String> result = wordBreak(str, set);
+        //System.out.print(result);
     }
-    public List<String> wordBreak(String str, Set<String> dict) {
+    public List<String> wordBreak(String s, Set<String> dict) {
         ArrayList<String> result = new ArrayList<String>();
-        if(str==null || str.length()==0)
+        if(s==null || s.length()==0)
             return result;
 
-        boolean[][] possible = new boolean[str.length()][str.length()+1];
-        for(int len = 1; len <= str.length(); len++){
-            for(int start=0; start < str.length(); start++){
-                if(start+len<=str.length()){
-                    if(dict.contains(str.substring(start, start+len))){
-                        possible[start][len]=true;
+        boolean[][] seg = new boolean[s.length()][s.length()+1];
+        for(int len = 1; len <= s.length(); len++){
+            for(int start=0; start < s.length(); start++){
+                if(start+len<=s.length()){
+                    if(dict.contains(s.substring(start, start+len))){
+                        seg[start][len]=true;
                         continue;
                     }
                     for(int i = 1; i < len; i++){
-                        if(possible[start][i]==true && possible[start+i][len-i]==true){
-                            possible[start][start+len]=true;
+                        if(seg[start][i]==true && seg[start+i][len-i]==true){
+                            seg[start][len]=true;
                             break;
                         }
                     }
@@ -76,27 +76,84 @@ public class WordBreakII {
 
             }
         }
-        if(!possible[0][str.length()])
+
+        // if no solution
+        if (!seg[0][s.length()])
             return result;
 
-        addWordBreak(str,dict,0,new StringBuilder(),possible,result);
+        dfs(s,seg,0,result,new StringBuilder(),dict);
         return result;
     }
-    private void addWordBreak(String s, Set<String> dict, int start, StringBuilder sb, boolean[][] possible, ArrayList<String> result)
-    {
-        if(s.length()==0){
-            result.add(sb.substring(0,sb.length()-1));
-            return;
+
+    private void dfs(String s, boolean seg[][], int start,
+                     ArrayList<String> ret, StringBuilder sb, Set<String> dict) {
+        // exit
+        if ("".equals(s)) {
+            // need to trim the ending white space
+            ret.add(sb.substring(0, sb.length() - 1));
         }
-        for(int len=1; len<=s.length(); len++){
-            if(possible[start][len]){
-                String temp = s.substring(0, len);
-                if(dict.contains(temp)){
-                    sb.append(temp).append(" ");
-                    addWordBreak(s.substring(len), dict, start+len, sb, possible, result);
-                    sb.delete(sb.length()-temp.length()-1, sb.length());
+
+        for (int len = 1; len <= s.length(); len++) {
+            // do pruning here
+            if (seg[start][len]) {
+                String str = s.substring(0, len);
+                if (dict.contains(str)) {
+                    sb.append(str).append(" ");
+                    dfs(s.substring(len), seg, start + len, ret, sb, dict);
+                    // backtrack
+                    sb.delete(sb.length() - str.length() - 1, sb.length());
                 }
             }
+        }
+    }
+
+    public List<String> wordBreakII(String str, Set<String> dict) {
+        ArrayList<String> result = new ArrayList<String>();
+        if(str==null || str.length()==0)
+            return result;
+
+        boolean[] t = new boolean[str.length()+1];
+        t[0] = true;
+
+        for(int i = 0; i < str.length(); i++){
+            if(!t[i])
+                continue;
+
+            for(String s : dict){
+                int len = s.length();
+                int end = i + len;
+                if(end > str.length())
+                    continue;
+                if(str.substring(i,end).equals(s))
+                    t[end]=true;
+            }
+        }
+
+        // if no solution
+        if (!t[str.length()])
+            return result;
+
+        dfs(str,0,result,new StringBuilder(),dict);
+        return result;
+    }
+
+    private void dfs(String s, int start,
+                     ArrayList<String> ret, StringBuilder sb, Set<String> dict) {
+        // exit
+        if ("".equals(s)) {
+            // need to trim the ending white space
+            ret.add(sb.substring(0, sb.length() - 1));
+        }
+
+        for (int len = 1; len <= s.length(); len++) {
+            String str = s.substring(0, len);
+            if (dict.contains(str)) {
+                sb.append(str).append(" ");
+                dfs(s.substring(len), start + len, ret, sb, dict);
+                // backtrack
+                sb.delete(sb.length() - str.length() - 1, sb.length());
+            }
+
         }
     }
 }

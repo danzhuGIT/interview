@@ -26,8 +26,10 @@ public class EditDistance {
                     table[i][j] = i;
                 } else {
                     if(word1.charAt(i-1) == word2.charAt(j-1))
-                        table[i][j] = table[i-1][j-1];
+                        //table[i][j] = table[i-1][j-1];
+                        table[i][j] = Math.min(table[i-1][j-1], Math.min(table[i-1][j]+1, table[i][j-1]+1));
                     else
+                        //insert, replace, delete
                         table[i][j] = Math.min(Math.min(table[i][j-1], table[i-1][j-1]), table[i-1][j]) + 1;
                 }
             }
